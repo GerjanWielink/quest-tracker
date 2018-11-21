@@ -1,17 +1,13 @@
-import util.ArrayCompare;
-import util.FileReader;
+import connector.HighScoreConnector;
+import connector.PlayerType;
 
 import java.io.IOException;
 
 public class App {
 	public static void main (String[] args) throws IOException {
-		FileReader gerjan = new FileReader("\\static\\gerjan.txt");
-		FileReader jasper = new FileReader( "\\static\\jasper.txt");
+		PlayerType playerType = args.length > 1 && args[1].equals("-i") ? PlayerType.IRONMAN : PlayerType.NORMAL;
 
-		ArrayCompare comparer =  new ArrayCompare(gerjan.getLines(), jasper.getLines());
-
-		for(String quest: comparer.intersection()) {
-			System.out.println(quest);
-		}
+		System.out.print(HighScoreConnector.getPlayerStats(args[0], playerType));
+		System.out.flush();
 	}
 }
