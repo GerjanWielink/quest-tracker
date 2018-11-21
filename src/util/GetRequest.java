@@ -18,7 +18,7 @@ public class GetRequest {
 		}
 	}
 
-	public String get () {
+	public String execute () {
 		// setup the request object
 		try {
 			System.out.print("Attempting to reach: ");

@@ -10,7 +10,7 @@ public class HighScoreConnector {
 	public static String getPlayerStats (String username, PlayerType playerType) {
 
 		GetRequest playerConnector = new GetRequest(createHighScoreUrl(playerType, username));
-		String content = playerConnector.get();
+		String content = playerConnector.execute();
 
 		return parseHighScoreResponse(content);
 	}
@@ -24,15 +24,14 @@ public class HighScoreConnector {
 	private static String parseHighScoreResponse (String response) {
 		String[] skillsData = response.split(",");
 
-		String formatted = "";
+		StringBuilder formatted = new StringBuilder();
 
-		// TODO: Replace with Stringbuffer or something else for efficiency
 		for (Skill skill: Skill.values()) {
-			formatted += skill.getName() + ": ";
-			formatted += skillsData[(skill.getIndex() * 2) + 1];
-			formatted += "\n";
+			formatted.append(skill.getName()).append(": ");
+			formatted.append(skillsData[(skill.getIndex() * 2) + 1]);
+			formatted.append("\n");
 		}
 
-		return formatted;
+		return formatted.toString();
 	}
 }
