@@ -1,5 +1,7 @@
-package connector;
+package connectors;
 
+import types.PlayerType;
+import types.Skill;
 import util.GetRequest;
 
 public class HighScoreConnector {

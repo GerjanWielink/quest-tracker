@@ -1,4 +1,4 @@
-package connector;
+package types;
 
 public enum Skill {
 	OVERALL (0, "Total"),

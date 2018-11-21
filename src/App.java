@@ -1,5 +1,5 @@
-import connector.HighScoreConnector;
-import connector.PlayerType;
+import connectors.HighScoreConnector;
+import types.PlayerType;
 
 import java.io.IOException;
 
