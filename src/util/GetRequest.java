@@ -18,45 +18,38 @@ public class GetRequest {
 		}
 	}
 
-	public String execute () {
+	public String execute () throws IOException{
 		// setup the request object
-		try {
-			System.out.print("Attempting to reach: ");
-			System.out.println(this.url.toString());
+		System.out.println(url.toString());
 
-			HttpURLConnection connection = (HttpURLConnection) this.url.openConnection();
-			connection.setRequestMethod("GET");
+		HttpURLConnection connection = (HttpURLConnection) this.url.openConnection();
+		connection.setRequestMethod("GET");
 
-			// execute the connection
-			int status = connection.getResponseCode();
+		// execute the connection
+		int status = connection.getResponseCode();
 
-			// handle redirect
-			if (status == HttpURLConnection.HTTP_MOVED_TEMP
-					|| status == HttpURLConnection.HTTP_MOVED_PERM) {
-				String location = connection.getHeaderField("Location");
-				URL newUrl = new URL(location);
-				connection = (HttpURLConnection) newUrl.openConnection();
-			}
-
-			// read the response
-			BufferedReader in = new BufferedReader(
-					new InputStreamReader(connection.getInputStream())
-			);
-			String inputLine;
-			StringBuffer content = new StringBuffer();
-			while ((inputLine = in.readLine()) != null) {
-				content.append(inputLine);
-			}
-			// close the connection
-			in.close();
-
-			// return the content
-			return content.toString();
-		} catch (IOException e) {
-			System.out.println("IOException in class GetRequest");
-			return "";
+		// handle redirect
+		if (status == HttpURLConnection.HTTP_MOVED_TEMP
+				|| status == HttpURLConnection.HTTP_MOVED_PERM) {
+			String location = connection.getHeaderField("Location");
+			URL newUrl = new URL(location);
+			connection = (HttpURLConnection) newUrl.openConnection();
 		}
+
+		// read the response
+		BufferedReader in = new BufferedReader(
+				new InputStreamReader(connection.getInputStream())
+		);
+		String inputLine;
+		StringBuilder content = new StringBuilder();
+		while ((inputLine = in.readLine()) != null) {
+			content.append(inputLine);
+		}
+		// close the connection
+		in.close();
+
+		// return the content
+		return content.toString();
+
 	}
-
-
 }
