@@ -1,18 +1,28 @@
 import connectors.HighScoreConnector;
 import types.PlayerType;
+import util.ArrayCompare;
+import util.FileReader;
 
 import java.io.IOException;
+import java.util.List;
 
 public class App {
 	public static void main (String[] args) throws IOException {
-		if (args.length == 0) {
-			System.out.println("Username not provided");
-			return;
-		}
+		FileReader jp = new FileReader("\\static\\jasper.txt");
+		FileReader gw = new FileReader("\\static\\gerjan.txt");
 
-		PlayerType playerType = args.length > 1 && args[1].equals("-i") ? PlayerType.IRONMAN : PlayerType.NORMAL;
+		List<String> jpQuests = jp.getLines();
+		List<String> gwQuests = gw.getLines();
 
-		System.out.print(HighScoreConnector.getPlayerStats(args[0], playerType));
+		ArrayCompare compare = new ArrayCompare(jpQuests, gwQuests);
+
+//		compare.intersection(false).forEach(System.out::println);
+
+		List<String> intersection = compare.intersection();
+
+		int index = (int) (intersection.size() * Math.random());
+
+		System.out.print(intersection.get(index));
 		System.out.flush();
 	}
 }

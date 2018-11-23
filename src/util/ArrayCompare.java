@@ -1,7 +1,7 @@
 package util;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ArrayCompare {
 	private List<String> left;
@@ -13,14 +13,19 @@ public class ArrayCompare {
 	}
 
 	public List<String> intersection () {
-		List<String> result = new ArrayList<>();
+		return intersection(false);
+	}
 
-		for (String entry: this.left) {
-			if(right.contains(entry)) {
-				result.add(entry);
-			}
-		}
+	public List<String> intersection (boolean caseSensitive) {
+		List<String> rightStream = this.right
+				.stream()
+				.map(entry -> caseSensitive ? entry : entry.toLowerCase())
+				.collect(Collectors.toList());
 
-		return result;
+		return this.left
+				.stream()
+				.map(entry -> caseSensitive ? entry : entry.toLowerCase())
+				.filter(rightStream::contains)
+				.collect(Collectors.toList());
 	}
 }
